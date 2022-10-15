@@ -11,6 +11,8 @@ export default function Login() {
     const [error, setError] = useState('Todo en Orden')
     // MÉTODO QUE ACTUALIZA LOS DATOS DEL USUARIO //
     const handleChange = ({ target: { name, value } }) => {
+        console.log('El elemento: ' + name + ' cambió, se ingresó: ' + value)
+        console.log('El estado de user contenía: ' + user[name] + ' lo voy a cambiar a: ' + value)
         setUser({ ...user, [name]: value })
     }
 
@@ -19,7 +21,7 @@ export default function Login() {
             <div className='email__input__container'>
                 <input
                     className='email__input'
-                    type='text'
+                    type='email'
                     name='email'
                     onChange={handleChange}
                     placeholder='Correo'
