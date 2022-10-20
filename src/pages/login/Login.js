@@ -11,11 +11,30 @@ export default function Login() {
     const [error, setError] = useState('')
     // MÉTODO QUE ACTUALIZA LOS DATOS DEL USUARIO //
     const handleChange = ({ target: { name, value } }) => {
-        console.log('El elemento: ' + name + ' cambió, se ingresó: ' + value)
-        console.log('El estado de user contenía: ' + user[name] + ' lo voy a cambiar a: ' + value)
+        setError ("")
         setUser({ ...user, [name]: value })
     }
 
+    //MÉTODO QUE CONTROLA EL LOGIN//
+    const handleSummit = () => {
+        if (handleValidate()) {
+            console.log('Ingreso exitoso')
+        }
+    }
+
+    // MÉTODO QUE VALIDA LOS DATOS DEL FORMULARIO//
+    const handleValidate = () => {
+        var emailValido = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        if (!user.email.match(emailValido)) {
+            console.log('Email inválido')
+            setError('Por favor ingrese un email válido')
+            return false
+        } else if (user.password.length < 6) {
+            setError('La contraseña debe tener mínimo 6 caracteres')
+            return false
+        }
+        return true
+    }
     return (
         <div className='login__container'>
             <div className='email__input__container'>
@@ -37,7 +56,7 @@ export default function Login() {
                 />
             </div>
             <div className='login__button__container'>
-                <button className='login__button'>Ingresar</button>
+                <button onClick={handleSummit} className='login__button'>Ingresar</button>
             </div>
             <div className='error__msg__container'>
                 <p className='error__msg'>{error}</p>
