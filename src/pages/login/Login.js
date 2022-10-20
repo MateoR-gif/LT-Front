@@ -8,7 +8,7 @@ export default function Login() {
         password: ""
     })
     // CONSTANTE PARA LOS MENSAJES DE ERROR //
-    const [error, setError] = useState('Todo en Orden')
+    const [error, setError] = useState('')
     // MÉTODO QUE ACTUALIZA LOS DATOS DEL USUARIO //
     const handleChange = ({ target: { name, value } }) => {
         console.log('El elemento: ' + name + ' cambió, se ingresó: ' + value)
