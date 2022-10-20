@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 
 export default function Register() {
+  const [user, setUser] = useState ({
+    email:'',
+    password:'',
+    repassword:'',
+  }) 
   const [error, setError] = useState('Todo en orden, putos!')
   const handleChange = ({ target: { name, value } }) => {
     setUser ({ ...user, [name]: value})
@@ -16,13 +21,23 @@ export default function Register() {
           placeholder='Correo'
         />
       </div>
-      <div className='password__input__container'>F
+      <div className='password__input__container'>
         <input
           className='password__input'
           type='password'
           name='password'
           onChange={handleChange}
           placeholder='Contraseña'
+        />
+
+      </div>
+      <div className='password__input__container'>
+        <input
+          className='password__input'
+          type='password'
+          name='repassword'
+          onChange={handleChange}
+          placeholder='Repetir contraseña'
         />
 
       </div>
