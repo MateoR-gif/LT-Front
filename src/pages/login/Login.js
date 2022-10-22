@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { loginRoute } from '../../utils/APIRoutes'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function Login() {
     // INSTANCIA DEL USENAVIGATE //
@@ -22,7 +22,7 @@ export default function Login() {
     const [error, setError] = useState('')
     // MÉTODO QUE ACTUALIZA LOS DATOS DEL USUARIO //
     const handleChange = ({ target: { name, value } }) => {
-        setError ("")
+        setError("")
         setUser({ ...user, [name]: value })
     }
 
@@ -88,6 +88,9 @@ export default function Login() {
             </div>
             <div className='error__msg__container'>
                 <p className='error__msg'>{error}</p>
+            </div>
+            <div className='link__register__container'>
+                <Link to={'/register'}>Registrarse</Link>
             </div>
         </div>
     )
