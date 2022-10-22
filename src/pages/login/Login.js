@@ -1,7 +1,18 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { loginRoute } from '../../utils/APIRoutes'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
+    // INSTANCIA DEL USENAVIGATE //
+    const navigate = useNavigate()
+    // USE EFFECT //
+    useEffect(() => {
+        if (localStorage.getItem("user")) {
+            navigate("/")
+        }
+    }, [navigate])
     // CONSTANTE PARA LOS DATOS DEL USUARIO //
     const [user, setUser] = useState({
         email: "",
@@ -18,7 +29,7 @@ export default function Login() {
     //MÉTODO QUE CONTROLA EL LOGIN//
     const handleSummit = () => {
         if (handleValidate()) {
-            console.log('Ingreso exitoso')
+            login()
         }
     }
 
@@ -34,6 +45,23 @@ export default function Login() {
             return false
         }
         return true
+    }
+
+    // MÉTODO LOGIN //
+    const login = async () => {
+        try {
+            const login = await axios.post(loginRoute, user)
+            console.log(login.data)
+            if (login.data.ok) {
+                delete login.data.user.password
+                localStorage.setItem("user", JSON.stringify(login.data.user))
+                console.log(localStorage.getItem("user"))
+                navigate("/")
+            }
+        } catch (error) {
+            console.log(error)
+            setError(error.response.data.msg)
+        }
     }
     return (
         <div className='login__container'>
