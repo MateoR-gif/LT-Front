@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useDeferredValue, useState } from 'react'
+import React, {useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom/dist'
 import { loginRoute, registerRoute } from '../../utils/APIRoutes'
