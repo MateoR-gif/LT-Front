@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useDeferredValue, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom/dist'
+import { loginRoute, registerRoute } from '../../utils/APIRoutes'
 
 export default function Register() {
+  //INSTANCIA DEL USENAVIGATE 
+  const navigate = useNavigate()
   //CONSTANTE PARA LOS DATOS DEL USUARIO
   const [user, setUser] = useState({
+    username: '',
     email: '',
     password: '',
     repassword: '',
@@ -16,9 +22,16 @@ export default function Register() {
     setUser({ ...user, [name]: value })
   }
   //METODO QUE MANEJA EL REGISTRO
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (handleValidate()) {
-      console.log('Apto para registro')
+      try {
+        delete user.repassword
+        const registro = await axios.post(registerRoute, user)
+        setError(registro.data.msg + " Ingresando")
+        login()
+      } catch (error) {
+
+      }
     } else {
       console.log('No apto para el registro')
     }
@@ -39,8 +52,33 @@ export default function Register() {
     }
     return true
   }
+  // MÉTODO LOGIN //
+  const login = async () => {
+    try {
+      const login = await axios.post(loginRoute, user)
+      console.log(login.data)
+      if (login.data.ok) {
+        delete login.data.user.password
+        localStorage.setItem("user", JSON.stringify(login.data.user))
+        console.log(localStorage.getItem("user"))
+        navigate("/")
+      }
+    } catch (error) {
+      console.log(error)
+      setError(error.response.data.msg)
+    }
+  }
   return (
     <div className='register__container'>
+      <div className='username__input__container'>
+        <input
+          className='username__input'
+          type='text'
+          name='username'
+          onChange={handleChange}
+          placeholder='Nombre de usuario'
+        />
+      </div>
       <div className='email__input__container'>
         <input
           className='email__input'
