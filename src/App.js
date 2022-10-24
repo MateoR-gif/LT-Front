@@ -5,22 +5,25 @@ import Chat from './pages/chat/Chat.js'
 import ProtectedRoute from './components/ProtectedRoute.js';
 import NotFound from './pages/404/404'
 import './App.css'
+import Loading from './components/Loading.js';
 
 function App() {
   return (
     <div className='app__container'>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={
-            <ProtectedRoute>
-              <Chat />
-            </ProtectedRoute>
-          } />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <Loading>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={
+              <ProtectedRoute>
+                <Chat />
+              </ProtectedRoute>
+            } />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </Loading>
     </div>
   );
 }
