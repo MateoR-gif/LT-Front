@@ -3,37 +3,39 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import { GlobalMsgRoute, host } from '../utils/APIRoutes'
 
+//INSTANCIA DEL CLIENTE SOCKET
 const socket = io(host)
 
 export default function GlobalChat() {
 
+    // CONSTANTE QUE ALMACENA EL USUARIO
     const user = JSON.parse(localStorage.getItem("user"))
+    // CONSTANTE QUE ALMACENA LOS MENSAJES
     const [messages, setMessages] = useState([])
+    // CONSTANTE QUE ALMACENA EL MENSAJE QUE SE VA A ENVIAR
     const [toSend, setToSend] = useState({
         message: '',
         from: user.username
     })
-
-    const handleChange = ({ target: { name, value } }) => { //LIMPIA EL MENSAJE DE ERROR
+    // MÉTODO QUE ACTUALIZA EL ESTADO DEL MENSAJE QUE SE VA A ENVIAR
+    const handleChange = ({ target: { name, value } }) => {
         setToSend({ ...toSend, [name]: value })
     }
-
+    // MÉTODO QUE OBTIENE LOS MENSAJES
     const getGlobalMessages = useCallback(async () => {
         try {
             const data = await axios.get(GlobalMsgRoute)
-            console.log(data)
             setMessages(data.data.messages)
-            console.log(messages)
         } catch (error) {
             console.log(error)
         }
-    }, [messages])
-
+    }, [])
+    // USEEFFECT
     useEffect(() => {
         getGlobalMessages()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
+    // USE EFFECT QUE SE COMUNICA CON LOS SOCKETS
     useEffect(() => {
         const recieveMessage = (message) => {
             setMessages([...messages, {
@@ -46,7 +48,7 @@ export default function GlobalChat() {
             socket.off("message", recieveMessage)
         }
     }, [messages])
-
+    // MÉTODO QUE ENVÍA EL MENSAJE
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {

@@ -61,33 +61,43 @@ export default function Login() {
         }
     }
     return (
-        <div className='login__container'>
-            <div className='email__input__container'>
-                <input
-                    className='email__input'
-                    type='email'
-                    name='email'
-                    onChange={handleChange}
-                    placeholder='Correo'
-                />
-            </div>
-            <div className='password__input__container'>
-                <input
-                    className='password__input'
-                    type='password'
-                    name='password'
-                    onChange={handleChange}
-                    placeholder='Contraseña'
-                />
-            </div>
-            <div className='login__button__container'>
-                <button onClick={handleSummit} className='login__button'>Ingresar</button>
-            </div>
-            <div className='error__msg__container'>
-                <p className='error__msg'>{error}</p>
-            </div>
-            <div className='link__register__container'>
-                <Link to={'/register'}>Registrarse</Link>
+        <div className='component__container'>
+            <div className='form__container'>
+                <div className='title__container'>
+                    <h2 className='orange'>{'>'} Let's Talk</h2>
+                </div>
+                <div className='email input__container'>
+                    <input
+                        className='email__input'
+                        type='email'
+                        name='email'
+                        onChange={handleChange}
+                        // eslint-disable-next-line no-template-curly-in-string
+                        placeholder='> E-Mail: ${email}'
+                        autoComplete='off'
+                    />
+                </div>
+                <div className='password input__container'>
+                    <input
+                        className='password__input'
+                        type='password'
+                        name='password'
+                        onChange={handleChange}
+                        // eslint-disable-next-line no-template-curly-in-string
+                        placeholder='> Contraseña: ${password}'
+                    />
+                </div>
+                <div className='control__buttons'>
+                    <div className='login__button__container input__container'>
+                        <button onClick={handleSummit} className='login__button'>Ingresar</button>
+                    </div>
+                    <div className='link__register__container'>
+                        <Link to={'/register'}>{'>'} Registrarse</Link>
+                    </div>
+                </div>
+                <div className='error__msg__container'>
+                    <p className='error__msg orange'>{error}</p>
+                </div>
             </div>
         </div>
     )

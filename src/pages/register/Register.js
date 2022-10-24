@@ -1,12 +1,18 @@
 import axios from 'axios'
-import React, {useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom/dist'
 import { loginRoute, registerRoute } from '../../utils/APIRoutes'
 
 export default function Register() {
-  //INSTANCIA DEL USENAVIGATE 
+  //INSTANCIA DEL USENAVIGATE
   const navigate = useNavigate()
+  // USE EFFECT //
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      navigate("/")
+    }
+  }, [navigate])
   //CONSTANTE PARA LOS DATOS DEL USUARIO
   const [user, setUser] = useState({
     username: '',
@@ -23,17 +29,16 @@ export default function Register() {
   }
   //METODO QUE MANEJA EL REGISTRO
   const handleSubmit = async () => {
+    setUser({ ...user, repassword: '' })
     if (handleValidate()) {
       try {
         delete user.repassword
         const registro = await axios.post(registerRoute, user)
-        setError(registro.data.msg + " Ingresando")
+        setError(registro.data.msg + ", Ingresando...")
         login()
       } catch (error) {
-
+        setError(error.response.data.msg)
       }
-    } else {
-      console.log('No apto para el registro')
     }
   }
   //METODO QUE VALIDA EL FORMULARIO
@@ -42,6 +47,9 @@ export default function Register() {
     if (!user.email.match(emailValido)) {
       console.log('Email inválido')
       setError('Por favor ingrese un email válido')
+      return false
+    } else if (user.username < 6) {
+      setError('El nombre de usuario tiene que tener mínimo 6 caracteres')
       return false
     } else if (user.password.length < 6) {
       setError('La contraseña debe tener mínimo 6 caracteres')
@@ -69,53 +77,69 @@ export default function Register() {
     }
   }
   return (
-    <div className='register__container'>
-      <div className='username__input__container'>
-        <input
-          className='username__input'
-          type='text'
-          name='username'
-          onChange={handleChange}
-          placeholder='Nombre de usuario'
-        />
-      </div>
-      <div className='email__input__container'>
-        <input
-          className='email__input'
-          type='email'
-          name='email'
-          onChange={handleChange}
-          placeholder='Correo'
-        />
-      </div>
-      <div className='password__input__container'>
-        <input
-          className='password__input'
-          type='password'
-          name='password'
-          onChange={handleChange}
-          placeholder='Contraseña'
-        />
+    <div className='component__container'>
+      <div className='form__container'>
+        <div className='title__container'>
+          <h2 className='orange'>{'>'} Let's Talk</h2>
+        </div>
+        <div className='username__input__container'>
+          <input
+            className='username__input'
+            type='text'
+            name='username'
+            onChange={handleChange}
+            // eslint-disable-next-line no-template-curly-in-string
+            placeholder='> Nombre de Usuario: ${username}'
+            autoComplete='off'
+          />
 
-      </div>
-      <div className='password__input__container'>
-        <input
-          className='password__input'
-          type='password'
-          name='repassword'
-          onChange={handleChange}
-          placeholder='Repetir contraseña'
-        />
+        </div>
+        <div className='email__input__container'>
+          <input
+            className='email__input'
+            type='email'
+            name='email'
+            onChange={handleChange}
+            // eslint-disable-next-line no-template-curly-in-string
+            placeholder='> E-Mail: ${email}'
+            autoComplete='off'
+          />
+        </div>
+        <div className='password__input__container'>
+          <input
+            className='password__input'
+            type='password'
+            name='password'
+            onChange={handleChange}
+            value={user.password}
+            // eslint-disable-next-line no-template-curly-in-string
+            placeholder='> Contraseña: ${password}'
+          />
 
-      </div>
-      <div className='register__buton__container'>
-        <button className='register__button' onClick={handleSubmit}> Registrarse </button>
-      </div>
-      <div className='error__msg__container'>
-        <p className='error__msg'>{error}</p>
-      </div>
-      <div className='link__login__container'>
-        <Link to={'/login'}>Ya tengo una cuenta</Link>
+        </div>
+        <div className='password__input__container'>
+          <input
+            className='password__input'
+            type='password'
+            name='repassword'
+            onChange={handleChange}
+            value={user.repassword}
+            // eslint-disable-next-line no-template-curly-in-string
+            placeholder='> Repetir Contraseña: ${repassword}'
+          />
+
+        </div>
+        <div className='control__buttons'>
+          <div className='register__buton__container'>
+            <button className='register__button' onClick={handleSubmit}> Registrarse </button>
+          </div>
+          <div className='link__login__container'>
+            <Link to={'/login'}>{'>'} Ya tengo una cuenta</Link>
+          </div>
+        </div>
+        <div className='error__msg__container'>
+          <p className='error__msg orange'>{error}</p>
+        </div>
       </div>
     </div>
   )
