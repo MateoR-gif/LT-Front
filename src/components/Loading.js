@@ -5,14 +5,14 @@ import axios from 'axios'
 
 export default function Loading({ children }) {
 
-    const [error, setError] = useState('Cargando...')
+    const [error, setError] = useState('> Cargando...')
 
     const [isLoading, setIsLoading] = useState(true)
 
     const getGlobalMessages = useCallback(async () => {
         try {
             await axios.get(GlobalMsgRoute)
-            setError("Cargando... Listo")
+            setError("> Cargando... Listo")
             setTimeout(() => {
                 setIsLoading(false)
             }, 1000)
