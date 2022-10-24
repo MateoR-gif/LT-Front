@@ -28,9 +28,9 @@ export default function Loading({ children }) {
 
     if(isLoading){
         return(
-            <div>
-                <img src={loading} />
-                {error}
+            <div className='charger__container'>
+                <h1 className='orange'>{error}</h1>
+                <img src={loading} alt='loading.gif'></img>
             </div>
         )
     }
