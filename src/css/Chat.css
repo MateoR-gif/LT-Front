@@ -1,0 +1,19 @@
+/* CHAT */
+
+.component__chat__container {
+    display: flex;
+    gap: 50px;
+}
+
+.chat__controllers {
+    border: 1px solid;
+    border-radius: 2%;
+    min-width: 15vw;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(24, 23, 23);
+    box-shadow: 5px 5px 5px black;
+}
+
+/* FIN CHAT */

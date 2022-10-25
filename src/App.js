@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './pages/login/Login.js';
-import Register from './pages/register/Register.js'
-import Chat from './pages/chat/Chat.js'
-import ProtectedRoute from './components/ProtectedRoute.js';
-import NotFound from './pages/404/404'
-import './App.css'
-import Loading from './components/Loading.js';
+import Login from './pages/Login.js';
+import Register from './pages/Register.js'
+import Chat from './pages/Chat.js'
+import ProtectedRoute from './components/App/ProtectedRoute';
+import Loading from './components/App/Loading';
+import NotFound from './pages/404'
+import './css/App.css';
+import './css/Chat.css'
+
 
 function App() {
   return (

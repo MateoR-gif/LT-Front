@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { host, loginRoute } from '../../utils/APIRoutes'
+import { host, loginRoute } from '../utils/APIRoutes'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 import { io } from 'socket.io-client'

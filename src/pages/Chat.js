@@ -2,9 +2,9 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
-import ChatContainer from '../../components/ChatContainer'
-import ConnectedUsers from '../../components/ConnectedUsers'
-import { connectedUsersRoute, host } from '../../utils/APIRoutes'
+import ChatContainer from '../components/Chat/ChatContainer'
+import ConnectedUsers from '../components/Chat/ConnectedUsers'
+import { connectedUsersRoute, host } from '../utils/APIRoutes'
 
 const socket = io(host)
 
@@ -39,8 +39,8 @@ export default function Chat() {
         <button onClick={() => setType('Global')}>Chat Global</button>
         <button onClick={logOut}>LogOut</button>
       </div>
-      <ChatContainer type={typeChat}></ChatContainer>
-      <ConnectedUsers></ConnectedUsers>
+      <ChatContainer type={typeChat} className='chat__container'></ChatContainer>
+      <ConnectedUsers className='connected__users'></ConnectedUsers>
     </div>
   )
 }

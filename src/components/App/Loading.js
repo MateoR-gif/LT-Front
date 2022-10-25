@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { GlobalMsgRoute } from '../utils/APIRoutes'
-import loading from "../assets/loading.gif"
+import { GlobalMsgRoute } from '../../utils/APIRoutes'
+import loading from "../../assets/loading.gif"
 import axios from 'axios'
 
 export default function Loading({ children }) {

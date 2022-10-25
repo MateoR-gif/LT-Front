@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
-import { connectedUsersRoute, host } from '../utils/APIRoutes'
+import { connectedUsersRoute, host } from '../../utils/APIRoutes'
 
 const socket = io(host)
 

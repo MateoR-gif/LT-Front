@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
-import { GlobalMsgRoute, host } from '../utils/APIRoutes'
+import { GlobalMsgRoute, host } from '../../utils/APIRoutes'
 
 //INSTANCIA DEL CLIENTE SOCKET
 const socket = io(host)
