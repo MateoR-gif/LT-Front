@@ -1,6 +1,12 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { io } from 'socket.io-client'
 import ChatContainer from '../../components/ChatContainer'
+import ConnectedUsers from '../../components/ConnectedUsers'
+import { connectedUsersRoute, host } from '../../utils/APIRoutes'
+
+const socket = io(host)
 
 export default function Chat() {
   // INSTANCIA DE USENAVIGATE //
@@ -11,9 +17,19 @@ export default function Chat() {
   const [typeChat, setType] = useState(null)
 
   // MÉTODO LOGOUT //
-  const logOut = () => {
-    localStorage.removeItem('user')
-    navigate("/login")
+  const logOut = async () => {
+    try {
+      const data = {
+        'username': user.username
+      }
+      await axios.delete(connectedUsersRoute, { data })
+      socket.emit('user-off', user)
+      localStorage.removeItem('user')
+      navigate("/login")
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   return (
@@ -24,6 +40,7 @@ export default function Chat() {
         <button onClick={logOut}>LogOut</button>
       </div>
       <ChatContainer type={typeChat}></ChatContainer>
+      <ConnectedUsers></ConnectedUsers>
     </div>
   )
 }

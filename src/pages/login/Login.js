@@ -1,8 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { loginRoute } from '../../utils/APIRoutes'
+import { host, loginRoute } from '../../utils/APIRoutes'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
+import { io } from 'socket.io-client'
+
+const socket = io(host)
 
 export default function Login() {
     // INSTANCIA DEL USENAVIGATE //
@@ -51,12 +54,16 @@ export default function Login() {
     const login = async () => {
         try {
             const login = await axios.post(loginRoute, user)
+            console.log(login.data)
             if (login.data.ok) {
                 delete login.data.user.password
                 localStorage.setItem("user", JSON.stringify(login.data.user))
+                console.log(localStorage.getItem("user"))
+                socket.emit("user-on", login.data.user)
                 navigate("/")
             }
         } catch (error) {
+            console.log(error)
             setError(error.response.data.msg)
         }
     }
