@@ -8,17 +8,13 @@ export default function ChatContainer(props) {
     switch (typeChat) {
         case null:
             return (
-                <div className='component__container'>
-                    <div className='form__container'>
-                        <h4 className='yellow'>Seleccione un Chat</h4>
-                    </div>
+                <div className='chat__container'>
+                    <h4 className='yellow'>Seleccione un Chat</h4>
                 </div>
             )
         case 'Global':
             return (
-                <div className='chat__container'>
-                    <GlobalChat></GlobalChat>
-                </div>
+                <GlobalChat className='chat__container'></GlobalChat>
             )
         default:
             break;

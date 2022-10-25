@@ -39,7 +39,7 @@ export default function Chat() {
         <button onClick={() => setType('Global')}>Chat Global</button>
         <button onClick={logOut}>LogOut</button>
       </div>
-      <ChatContainer type={typeChat} className='chat__container'></ChatContainer>
+      <ChatContainer className='chat__container' type={typeChat}></ChatContainer>
       <ConnectedUsers className='connected__users'></ConnectedUsers>
     </div>
   )

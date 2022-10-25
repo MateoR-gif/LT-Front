@@ -129,30 +129,6 @@ a:hover {
 
 /* FIN GLOBAL */
 
-/* CHAT GLOBAL */
-
-.global__chat__container {
-    width: 90%;
-    height: 100%;
-    background-color: rgb(24, 23, 23);
-    box-shadow: 5px 5px 5px black;
-}
-
-.messages__container {
-    display: flex;
-    flex-direction: column;
-    max-height: 90%;
-    overflow: auto;
-    overflow-wrap: break-word;
-}
-
-.form__chat{
-    display: flex;
-}
-
-
-/* FIN CHAT GLOBAL */
-
 /* SCROLL BAR */
 
 /* width */

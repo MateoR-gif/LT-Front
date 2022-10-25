@@ -65,8 +65,8 @@ export default function GlobalChat() {
         }
     }
     return (
-        <div className='component__container'>
-            <div className='form__container'>
+        <div className='chat__container'>
+            <div className='global__chat__container'>
                 <div className='title__container'>
                     <h3 className='title orange yellow'>Chat Global</h3>
                 </div>
