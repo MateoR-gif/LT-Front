@@ -1,4 +1,11 @@
 /* CHAT */
+* {
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: large;
+    margin: 0;
+  }
+  
 
 .chat__controllers {
     grid-area: 'chat__controllers';
@@ -21,6 +28,13 @@
 }
 
 @media (min-width: 950px) {
+    * {
+        box-sizing: border-box;
+        font-family: monospace;
+        font-size: small;
+        margin: 0;
+      }
+      
     .component__chat__container {
         display: grid;
         gap: 5vw;
