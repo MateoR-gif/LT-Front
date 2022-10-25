@@ -48,10 +48,14 @@ export default function Register() {
       console.log('Email inválido')
       setError('Por favor ingrese un email válido')
       return false
-    } else if (user.username < 6) {
-      setError('El nombre de usuario tiene que tener mínimo 6 caracteres')
+    } else if (user.username.length < 3 ) {
+      setError('El nombre de usuario tiene que tener mínimo 3 caracteres')
       return false
-    } else if (user.password.length < 6) {
+    } else if (user.username.length > 15 ) {
+      setError('El nombre de usuario no puede exceder los 15 caracteres')
+      return false
+    }
+    else if (user.password.length < 6) {
       setError('La contraseña debe tener mínimo 6 caracteres')
       return false
     } else if (user.password !== user.repassword) {

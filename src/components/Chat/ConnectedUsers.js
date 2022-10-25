@@ -40,13 +40,15 @@ export default function ConnectedUsers() {
         }
     }
     return (
-        <div className='connected__users'>
-            <div className='orange'>
-                <h1>Usuarios Conectados</h1>
+        <div className='yellow connected__users'>
+            <div className=''>
+                <div className='title__container'>
+                    <h3 className='title yellow'>Usuarios Conectados</h3>
+                </div>
                 {
                     connectedUsers.length === 0 ? 'No hay usuarios conectados' : connectedUsers.map((user) => {
                         return (
-                            <div>
+                            <div className='orange'>
                                 {'> '}{user.username}
                             </div>
                         )

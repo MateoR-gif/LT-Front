@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function NotFound() {
-
+  //INSTANCIA DEL USE NAVIGATE
   const navigate = useNavigate()
 
   return (

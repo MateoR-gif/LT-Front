@@ -34,8 +34,10 @@ export default function Chat() {
 
   return (
     <div className='component__chat__container'>
-      <div className='chat__controllers'> {/* Botones */}
-        <h3 className='orange'>Bienvenido, {user.username}</h3>
+      <div className='chat__controllers yellow'> {/* Botones */}
+        <div className='title__container'>
+          <h3 className='title yellow'>Bienvenido, {user.username}</h3>
+        </div>
         <button onClick={() => setType('Global')}>Chat Global</button>
         <button onClick={logOut}>LogOut</button>
       </div>

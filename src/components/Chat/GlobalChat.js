@@ -58,23 +58,23 @@ export default function GlobalChat() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const enviar = await axios.post(GlobalMsgRoute, toSend)
-            console.log(enviar)
+            await axios.post(GlobalMsgRoute, toSend)
             socket.emit('message', toSend)
             const newMessage = {
                 message: toSend.message,
                 from: 'Tú'
             }
+            setToSend({ ...toSend, message: '' })
             setMessages([...messages, newMessage])
         } catch (error) {
             console.log(error)
         }
     }
     return (
-        <div className='chat__container'>
+        <div className='yellow chat__container'>
             <div className='global__chat__container'>
                 <div className='title__container'>
-                    <h3 className='title orange yellow'>Chat Global</h3>
+                    <h3 className='title yellow'>Chat Global</h3>
                 </div>
                 <div className='messages__container'>
                     {
@@ -86,7 +86,7 @@ export default function GlobalChat() {
                             )
                         })
                     }
-                    <div ref={messagesRef}/>
+                    <div ref={messagesRef} />
                 </div>
                 <div className='chat__input__container'>
                     <form onSubmit={handleSubmit} className='form__chat'>

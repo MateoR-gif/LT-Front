@@ -1,21 +1,26 @@
 /* CHAT */
+
+.center{
+    display: flex;
+    justify-content: center;
+}
+
 * {
     box-sizing: border-box;
     font-family: monospace;
-    font-size: large;
+    font-size: small;
     margin: 0;
-  }
-  
+}
 
 .chat__controllers {
     grid-area: 'chat__controllers';
 }
 
-.chat__container{
+.chat__container {
     grid-area: 'chat__container';
 }
 
-.connected__users{
+.connected__users {
     grid-area: 'connected__users';
 }
 
@@ -31,20 +36,22 @@
     * {
         box-sizing: border-box;
         font-family: monospace;
-        font-size: small;
+        font-size: large;
         margin: 0;
-      }
-      
+    }
+
     .component__chat__container {
         display: grid;
-        gap: 5vw;
+        gap: 2vw;
         grid-template-areas:
             'chat__controllers chat__container connected__users';
     }
 }
 
 
-.chat__controllers, .connected__users, .chat__container{
+.chat__controllers,
+.connected__users,
+.chat__container {
     border: 1px solid;
     border-radius: 2%;
     min-width: 15vw;
@@ -53,6 +60,17 @@
     flex-direction: column;
     background-color: rgb(24, 23, 23);
     box-shadow: 5px 5px 5px black;
+}
+
+.chat__controllers,
+.connected__users {
+    max-width: 20vw;
+    height: 200px;
+}
+
+.chat__controllers{
+    display: flex;
+    justify-content: center;
 }
 
 /* FIN CHAT */
@@ -70,7 +88,14 @@
     overflow: auto;
 }
 
-.form__chat{
+.title__container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.form__chat {
     display: flex;
 }
 

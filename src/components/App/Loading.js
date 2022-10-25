@@ -5,11 +5,13 @@ import slowLoading from "../../assets/slowLoading.gif"
 import axios from 'axios'
 
 export default function Loading({ children }) {
-
+    //CONSTATE QUE GUARDA EL MENSAJE DE ERROR
     const [error, setError] = useState('> Cargando...')
+    //CONSTANTE QUE GUARDA EL GIF
     const [gif, setGif] = useState(loading)
+    //CONSTANTE QUE CONTROLA EL ESTADO CARGANDO
     const [isLoading, setIsLoading] = useState(true)
-
+    //METODO QUE VERIFICA LA CONEXION
     const getGlobalMessages = useCallback(async () => {
         try {
             await axios.get(GlobalMsgRoute)
@@ -22,7 +24,7 @@ export default function Loading({ children }) {
             setGif(slowLoading)
         }
     }, [])
-
+    //USE EFFECT QUE EJECUTA EL GET GLOBAL AL CARGAR LA PAGINA
     useEffect(() => {
         getGlobalMessages()
         // eslint-disable-next-line react-hooks/exhaustive-deps
