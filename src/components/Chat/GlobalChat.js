@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { io } from 'socket.io-client'
 import { GlobalMsgRoute, host } from '../../utils/APIRoutes'
 
@@ -17,6 +17,8 @@ export default function GlobalChat() {
         message: '',
         from: user.username
     })
+    //CONSTANTE QUE TIENE LA REFERENCIA DEL ULTIMO MENSAJE RECIBIDO
+    const messagesRef = useRef(null)
     // MÉTODO QUE ACTUALIZA EL ESTADO DEL MENSAJE QUE SE VA A ENVIAR
     const handleChange = ({ target: { name, value } }) => {
         setToSend({ ...toSend, [name]: value })
@@ -35,6 +37,10 @@ export default function GlobalChat() {
         getGlobalMessages()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    //USE EFFECT QUE HACE SCROLL AL ULTIMO MENSAJE
+    useEffect(() => {
+        messagesRef.current.scrollIntoView()
+    }, [messages])
     // USE EFFECT QUE SE COMUNICA CON LOS SOCKETS
     useEffect(() => {
         const recieveMessage = (message) => {
@@ -80,6 +86,7 @@ export default function GlobalChat() {
                             )
                         })
                     }
+                    <div ref={messagesRef}/>
                 </div>
                 <div className='chat__input__container'>
                     <form onSubmit={handleSubmit} className='form__chat'>

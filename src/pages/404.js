@@ -7,7 +7,7 @@ export default function NotFound() {
 
   return (
     <div>
-      <p className='orange'>{'>'} La ruta seeleccionada no fue encontrada y será redireccionado a la página principal</p>
+      <p className='orange'>{'>'} La ruta seleccionada no fue encontrada y será redireccionado a la página principal</p>
       <br></br>
       <button onClick={()=>navigate("/")}>Aceptar</button>
     </div>
