@@ -8,6 +8,8 @@ const socket = io(host)
 
 export default function GlobalChat() {
 
+    // CONSTANTE QUE GUARDA EL ESTADO 'istyping'
+    const [isTyping, setIsTyping] = useState(false)
     // CONSTANTE QUE ALMACENA EL USUARIO
     const user = JSON.parse(localStorage.getItem("user"))
     // CONSTANTE QUE ALMACENA LOS MENSAJES
@@ -21,6 +23,8 @@ export default function GlobalChat() {
     const messagesRef = useRef(null)
     // MÉTODO QUE ACTUALIZA EL ESTADO DEL MENSAJE QUE SE VA A ENVIAR
     const handleChange = ({ target: { name, value } }) => {
+        socket.emit('typing', true)
+        setIsTyping(true)
         setToSend({ ...toSend, [name]: value })
     }
     // MÉTODO QUE OBTIENE LOS MENSAJES
@@ -32,6 +36,14 @@ export default function GlobalChat() {
             console.log(error)
         }
     }, [])
+    useEffect(() => {
+        if (toSend.message === '') {
+            setTimeout(() => {
+                setIsTyping(false)
+                socket.emit('noTyping', false)
+            }, 1000)
+        }
+    }, [toSend])
     // USEEFFECT
     useEffect(() => {
         getGlobalMessages()
@@ -39,10 +51,13 @@ export default function GlobalChat() {
     }, [])
     //USE EFFECT QUE HACE SCROLL AL ULTIMO MENSAJE
     useEffect(() => {
-        messagesRef.current.scrollIntoView()
+        messagesRef.current?.scrollIntoView({ behavior: "smooth" })
     }, [messages])
     // USE EFFECT QUE SE COMUNICA CON LOS SOCKETS
     useEffect(() => {
+        const someoneTyping = (data) => {
+            setIsTyping(data)
+        }
         const recieveMessage = (message) => {
             setMessages([...messages, {
                 message: message.message,
@@ -50,8 +65,12 @@ export default function GlobalChat() {
             }])
         }
         socket.on("message", recieveMessage)
+        socket.on("typing", someoneTyping)
+        socket.on("noTyping", someoneTyping)
         return () => {
             socket.off("message", recieveMessage)
+            socket.off("typing", someoneTyping)
+            socket.off("noTyping", someoneTyping)
         }
     }, [messages])
     // MÉTODO QUE ENVÍA EL MENSAJE
@@ -78,15 +97,15 @@ export default function GlobalChat() {
                 </div>
                 <div className='messages__container'>
                     {
-                        messages.length === 0 ? 'No hay mensajes' : messages.map(message => {
+                        messages.length === 0 ? 'No hay mensajes' : messages.map((message, index) => {
                             return (
-                                <div key={message._id}>
+                                <div key={index}>
                                     <p className='orange'>{message.from === user.username ? 'Tú' : message.from}, dice: {message.message}</p>
                                 </div>
                             )
                         })
                     }
-                    <div ref={messagesRef} />
+                    <div ref={messagesRef}/>
                 </div>
                 <div className='chat__input__container'>
                     <form onSubmit={handleSubmit} className='form__chat'>
@@ -99,6 +118,9 @@ export default function GlobalChat() {
                         />
                         <button className='button__chat'>Enviar</button>
                     </form>
+                    <div>
+                        <p className=''>{isTyping ? 'Alguien está escribiendo...' : '...'}</p>
+                    </div>
                 </div>
             </div>
         </div>
