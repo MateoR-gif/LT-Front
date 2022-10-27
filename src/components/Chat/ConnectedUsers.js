@@ -5,7 +5,7 @@ import { connectedUsersRoute, host } from '../../utils/APIRoutes'
 
 const socket = io(host)
 
-export default function ConnectedUsers() {
+export default function ConnectedUsers({ extractInfo }) {
     // CONSTANTE QUE GUARDA LOS USUARIOS CONECTADOS
     const [connectedUsers, setConnectedUsers] = useState([])
     // CONEXIÓN CON LOS SOCKETS
@@ -46,13 +46,17 @@ export default function ConnectedUsers() {
                     <h3 className='title yellow'>Usuarios Conectados</h3>
                 </div>
                 {
-                    connectedUsers.length === 0 ? 'No hay usuarios conectados' : connectedUsers.map((user) => {
-                        return (
-                            <div className='orange'>
-                                {'> '}{user.username}
-                            </div>
-                        )
-                    })
+                    connectedUsers.length === 0 ? 'No hay usuarios conectados'
+                        : connectedUsers.map((user, index) => {
+                            return (
+                                <div className='orange' key={index}>
+                                    <p
+                                        onClick={() => extractInfo(user)}
+                                        className='connected__username'
+                                    >{'> '}{user.username}</p>
+                                </div>
+                            )
+                        })
                 }
             </div>
         </div>
