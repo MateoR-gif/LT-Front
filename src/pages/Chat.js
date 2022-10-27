@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import ChatContainer from '../components/Chat/ChatContainer'
 import ConnectedUsers from '../components/Chat/ConnectedUsers'
-import { connectedUsersRoute, host } from '../utils/APIRoutes'
+import { allConnectedUsersRoute, connectedUsersRoute, host } from '../utils/APIRoutes'
 
 const socket = io(host)
 
-export default function Chat() {
+export default function Chat(props) {
   // INSTANCIA DE USENAVIGATE //
   const navigate = useNavigate()
   // CONSTANTE CON LOS DATOS DEL USUARIO ACTUAL //
@@ -39,15 +39,27 @@ export default function Chat() {
     setType('UserProfile')
   }
 
+  //MÉTODO QUE DESCONECTA A TODOS LOS USUARIOS
+  const disconnectAll = async() => {
+    try {
+      await axios.delete(allConnectedUsersRoute)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
     <div className='component__chat__container'>
       <div className='chat__controllers yellow'> {/* Botones */}
         <div className='title__container'>
-          <h3 className='title yellow'>Bienvenido, {user.username}</h3>
+          <h3 className='title yellow'>Bienvenido, 
+          {user.rol === 'Admin' ? ` $${user.username}` : ` ~${user.username}`}</h3>
         </div>
         <button onClick={() => setType('Global')}>Chat Global</button>
-        <button onClick={logOut}>LogOut</button>
+        {user.rol === 'Admin' ? <button>Limpiar Chat Global</button> : null}
+        {user.rol === 'Admin' ? <button onClick={disconnectAll}>Desconectar Usuarios (Todos)</button> : null}
+        <button onClick={logOut}>Desconectarse</button>
       </div>
       <ChatContainer className='chat__container' type={typeChat} userProfileData={userProfileData}></ChatContainer>
       <ConnectedUsers className='connected__users' extractInfo={handleExtract}></ConnectedUsers>

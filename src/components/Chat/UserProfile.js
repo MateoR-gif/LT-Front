@@ -3,6 +3,7 @@ import React from 'react'
 export default function UserProfile(props) {
 
     const userProfileData = props.userProfileData
+    const connectedAt = new Date(userProfileData.connectedAt)
     console.log(userProfileData)
 
     return (
@@ -12,6 +13,9 @@ export default function UserProfile(props) {
                     {'> '}{userProfileData.username}
                 </h3>
             </div>
+            <p className='orange'>E-Mail: {userProfileData.email}</p>
+            <p className='orange'>Conectado desde: {connectedAt.toLocaleString() === 'Invalid Date' ?
+                    'Recargue para obtener el dato' : connectedAt.toLocaleString()}</p>
         </div>
     )
 }

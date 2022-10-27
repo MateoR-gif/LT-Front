@@ -20,6 +20,7 @@ export default function Register() {
   const [user, setUser] = useState({
     username: '',
     email: '',
+    rol: 'user',
     password: '',
     repassword: '',
   })
