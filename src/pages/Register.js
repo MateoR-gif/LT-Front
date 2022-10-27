@@ -2,7 +2,10 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom/dist'
-import { loginRoute, registerRoute } from '../utils/APIRoutes'
+import { io } from 'socket.io-client'
+import { host, loginRoute, registerRoute } from '../utils/APIRoutes'
+
+const socket = io(host)
 
 export default function Register() {
   //INSTANCIA DEL USENAVIGATE
@@ -67,19 +70,20 @@ export default function Register() {
   // MÉTODO LOGIN //
   const login = async () => {
     try {
-      const login = await axios.post(loginRoute, user)
-      console.log(login.data)
-      if (login.data.ok) {
-        delete login.data.user.password
-        localStorage.setItem("user", JSON.stringify(login.data.user))
-        console.log(localStorage.getItem("user"))
-        navigate("/")
-      }
+        const login = await axios.post(loginRoute, user)
+        console.log(login.data)
+        if (login.data.ok) {
+            delete login.data.user.password
+            localStorage.setItem("user", JSON.stringify(login.data.user))
+            console.log(localStorage.getItem("user"))
+            socket.emit("user-on", login.data.user)
+            navigate("/")
+        }
     } catch (error) {
-      console.log(error)
-      setError(error.response.data.msg)
+        console.log(error)
+        setError(error.response.data.msg)
     }
-  }
+}
   return (
     <div className='component__container'>
       <div className='form__container'>
