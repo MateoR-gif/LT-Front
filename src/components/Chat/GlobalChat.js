@@ -7,7 +7,9 @@ import { GlobalMsgRoute, host } from '../../utils/APIRoutes'
 const socket = io(host)
 
 export default function GlobalChat() {
-
+    
+    // CONSTANTE QUE GUARDA LA NOTIFICACION
+    const [notify, setNotify] = useState('')
     // CONSTANTE QUE GUARDA EL ESTADO 'istyping'
     const [isTyping, setIsTyping] = useState(false)
     // CONSTANTE QUE ALMACENA EL USUARIO
@@ -67,10 +69,26 @@ export default function GlobalChat() {
         socket.on("message", recieveMessage)
         socket.on("typing", someoneTyping)
         socket.on("noTyping", someoneTyping)
+        socket.on('clean-global-chat', (data) => {
+            setMessages('')
+            setIsTyping(false)
+            setNotify(data)
+            setTimeout(() => {
+                setNotify('')
+            }, 1000)
+        })
         return () => {
             socket.off("message", recieveMessage)
             socket.off("typing", someoneTyping)
             socket.off("noTyping", someoneTyping)
+            socket.off('clean-global-chat', (data) => {
+                setMessages('')
+                setIsTyping(false)
+                setNotify(data)
+                setTimeout(() => {
+                    setNotify('')
+                }, 1000)
+            })
         }
     }, [messages])
     // MÉTODO QUE ENVÍA EL MENSAJE
@@ -120,6 +138,7 @@ export default function GlobalChat() {
                     </form>
                     <div>
                         <p className=''>{isTyping ? 'Alguien está escribiendo...' : '...'}</p>
+                        <p>{notify}</p>
                     </div>
                 </div>
             </div>
