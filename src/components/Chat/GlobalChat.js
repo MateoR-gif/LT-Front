@@ -132,6 +132,7 @@ export default function GlobalChat() {
                             name='message'
                             className='chat__input'
                             value={toSend.message}
+                            maxLength={101}
                             autoComplete='off'
                         />
                         <button className='button__chat'>Enviar</button>
