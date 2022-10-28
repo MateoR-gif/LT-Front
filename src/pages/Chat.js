@@ -51,6 +51,7 @@ export default function Chat(props) {
     }
   }
 
+
   //MÉTODO QUE LIMPIA EL CHAT GLOBAL
   const cleanGlobalChat = async() => {
     try {
@@ -80,6 +81,7 @@ export default function Chat(props) {
           {user.rol === 'Admin' ? ` $${user.username}` : ` ~${user.username}`}</h3>
         </div>
         <button onClick={() => setType('Global')}>Chat Global</button>
+        {user.rol === 'Admin' ? <button onClick={() => setType('Conexiones')}>Ver Usuarios Conectados</button> : null}
         {user.rol === 'Admin' ? <button onClick={cleanGlobalChat}>Limpiar Chat Global</button> : null}
         {user.rol === 'Admin' ? <button onClick={disconnectAll}>Desconectar Usuarios (Todos)</button> : null}
         <button onClick={logOut}>Desconectarse</button>
