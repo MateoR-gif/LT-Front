@@ -7,7 +7,7 @@ import { io } from 'socket.io-client'
 
 const socket = io(host)
 
-export default function Login() {
+export default function Login({ extractInfo }) {
     // INSTANCIA DEL USENAVIGATE //
     const navigate = useNavigate()
     // USE EFFECT //
@@ -40,7 +40,6 @@ export default function Login() {
     const handleValidate = () => {
         var emailValido = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
         if (!user.email.match(emailValido)) {
-            console.log('Email inválido')
             setError('Por favor ingrese un email válido')
             return false
         } else if (user.password.length < 6) {
@@ -54,16 +53,14 @@ export default function Login() {
     const login = async () => {
         try {
             const login = await axios.post(loginRoute, user)
-            console.log(login.data)
             if (login.data.ok) {
                 delete login.data.user.password
+                extractInfo(login.data.user.rol)
                 localStorage.setItem("user", JSON.stringify(login.data.user))
-                console.log(localStorage.getItem("user"))
                 socket.emit("user-on", login.data.user)
                 navigate("/")
             }
         } catch (error) {
-            console.log(error)
             setError(error.response.data.msg)
         }
     }

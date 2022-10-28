@@ -7,7 +7,7 @@ import { host, loginRoute, registerRoute } from '../utils/APIRoutes'
 
 const socket = io(host)
 
-export default function Register() {
+export default function Register({ extractInfo }) {
   //INSTANCIA DEL USENAVIGATE
   const navigate = useNavigate()
   // USE EFFECT //
@@ -52,10 +52,10 @@ export default function Register() {
       console.log('Email inválido')
       setError('Por favor ingrese un email válido')
       return false
-    } else if (user.username.length < 3 ) {
+    } else if (user.username.length < 3) {
       setError('El nombre de usuario tiene que tener mínimo 3 caracteres')
       return false
-    } else if (user.username.length > 15 ) {
+    } else if (user.username.length > 15) {
       setError('El nombre de usuario no puede exceder los 15 caracteres')
       return false
     }
@@ -71,20 +71,18 @@ export default function Register() {
   // MÉTODO LOGIN //
   const login = async () => {
     try {
-        const login = await axios.post(loginRoute, user)
-        console.log(login.data)
-        if (login.data.ok) {
-            delete login.data.user.password
-            localStorage.setItem("user", JSON.stringify(login.data.user))
-            console.log(localStorage.getItem("user"))
-            socket.emit("user-on", login.data.user)
-            navigate("/")
-        }
+      const login = await axios.post(loginRoute, user)
+      if (login.data.ok) {
+        delete login.data.user.password
+        extractInfo(login.data.user.rol)
+        localStorage.setItem("user", JSON.stringify(login.data.user))
+        socket.emit("user-on", login.data.user)
+        navigate("/")
+      }
     } catch (error) {
-        console.log(error)
-        setError(error.response.data.msg)
+      setError(error.response.data.msg)
     }
-}
+  }
   return (
     <div className='component__container'>
       <div className='form__container'>

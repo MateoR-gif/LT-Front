@@ -12,8 +12,6 @@ export default function ConnectedUsers({ extractInfo }) {
     useEffect(() => {
         const userOff = (user) => {
             const temp = connectedUsers
-            console.log(temp)
-            console.log(user.username)
             setConnectedUsers(temp.filter((temp) => temp.username !== user.username))
         }
         const userOn = (user) => {

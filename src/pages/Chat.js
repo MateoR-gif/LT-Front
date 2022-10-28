@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
+import FakeChat from '../components/App/FakeChat'
 import ChatContainer from '../components/Chat/ChatContainer'
 import ConnectedUsers from '../components/Chat/ConnectedUsers'
 import { allConnectedUsersRoute, allGlobalMessagesRoute, connectedUsersRoute, host } from '../utils/APIRoutes'
@@ -9,6 +10,9 @@ import { allConnectedUsersRoute, allGlobalMessagesRoute, connectedUsersRoute, ho
 const socket = io(host)
 
 export default function Chat(props) {
+  const [isTrolled, setIsTrolled] = useState(false)
+  // CONSTANTE QUE DIFERENCIA USER O ADMIN //
+  const isAdmin = props.isAdmin
   // INSTANCIA DE USENAVIGATE //
   const navigate = useNavigate()
   // CONSTANTE CON LOS DATOS DEL USUARIO ACTUAL //
@@ -40,7 +44,7 @@ export default function Chat(props) {
   }
 
   //MÉTODO QUE DESCONECTA A TODOS LOS USUARIOS
-  const disconnectAll = async() => {
+  const disconnectAll = async () => {
     try {
       await axios.delete(allConnectedUsersRoute)
       socket.emit('all-disconnected', 'Desconexión Global')
@@ -53,7 +57,7 @@ export default function Chat(props) {
 
 
   //MÉTODO QUE LIMPIA EL CHAT GLOBAL
-  const cleanGlobalChat = async() => {
+  const cleanGlobalChat = async () => {
     try {
       await axios.delete(allGlobalMessagesRoute)
       socket.emit('clean-global-chat', 'Se limpió el chat global')
@@ -61,6 +65,15 @@ export default function Chat(props) {
       console.log(error)
     }
   }
+
+  useEffect(() => {
+    if (!isAdmin && (user.rol !== 'user')) {
+      setIsTrolled(true)
+    } else {
+      setIsTrolled(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     socket.on('all-disconnected', (data) => {
@@ -71,19 +84,22 @@ export default function Chat(props) {
   }, [navigate, user])
 
 
-
-
+  if (isTrolled) {
+    return (
+      <FakeChat />
+    )
+  }
   return (
     <div className='component__chat__container'>
       <div className='chat__controllers yellow'> {/* Botones */}
         <div className='title__container'>
-          <h3 className='title yellow'>Bienvenido, 
-          {user.rol === 'Admin' ? ` $${user.username}` : ` ~${user.username}`}</h3>
+          <h3 className='title yellow'>Bienvenido,
+            {isAdmin ? ` $${user.username}` : ` ~${user.username}`}</h3>
         </div>
         <button onClick={() => setType('Global')}>Chat Global</button>
-        {user.rol === 'Admin' ? <button onClick={() => setType('Conexiones')}>Ver Usuarios Conectados</button> : null}
-        {user.rol === 'Admin' ? <button onClick={cleanGlobalChat}>Limpiar Chat Global</button> : null}
-        {user.rol === 'Admin' ? <button onClick={disconnectAll}>Desconectar Usuarios (Todos)</button> : null}
+        {isAdmin ? <button onClick={() => setType('Conexiones')}>Ver Usuarios Conectados</button> : null}
+        {isAdmin ? <button onClick={cleanGlobalChat}>Limpiar Chat Global</button> : null}
+        {isAdmin ? <button onClick={disconnectAll}>Desconectar Usuarios (Todos)</button> : null}
         <button onClick={logOut}>Desconectarse</button>
       </div>
       <ChatContainer className='chat__container' type={typeChat} userProfileData={userProfileData}></ChatContainer>
