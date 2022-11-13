@@ -99,7 +99,7 @@ export default function GlobalChat() {
             socket.emit('message', toSend)
             const newMessage = {
                 message: toSend.message,
-                from: 'Tú'
+                from: user.username
             }
             setToSend({ ...toSend, message: '' })
             setMessages([...messages, newMessage])
@@ -116,13 +116,14 @@ export default function GlobalChat() {
                 <div className='messages__container'>
                     {
                         messages.length === 0 ? 'No hay mensajes' : messages.map((message, index) => {
+                            console.log(message.from)
                             return (
-                                <div key={index} className={message.from === user.username ? 'yellow' : 'orange'}>
+                                <div key={index}>
                                     {message.from === user.username
                                     ?
-                                    <p>Tú, dice: {message.message}</p>
+                                    <p className='yellow'>Tú, dice: {message.message}</p>
                                     :
-                                    <p>{message.from}, dice: {message.message}</p>
+                                    <p className='orange'>{message.from}, dice: {message.message}</p>
                                     }
                                 </div>
                             )

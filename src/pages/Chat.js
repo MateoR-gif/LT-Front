@@ -32,6 +32,8 @@ export default function Chat(props) {
       navigate("/login")
     } catch (error) {
       console.log(error)
+      localStorage.removeItem('user')
+      navigate("/login")
     }
   }, [navigate, user])
 
@@ -80,7 +82,7 @@ export default function Chat(props) {
             {isAdmin ? ` $${user.username}` : ` ~${user.username}`}</h3>
         </div>
         <button onClick={() => setType('Global')}>Chat Global</button>
-        {isAdmin ? <button onClick={() => setType('Conexiones')}>Ver Usuarios Conectados</button> : null}
+        {/* {isAdmin ? <button onClick={() => setType('Conexiones')}>Ver Usuarios Conectados</button> : null} */}
         {isAdmin ? <button onClick={cleanGlobalChat}>Limpiar Chat Global</button> : null}
         {isAdmin ? <button onClick={disconnectAll}>Desconectar Usuarios (Todos)</button> : null}
         <button onClick={logOut}>Desconectarse</button>

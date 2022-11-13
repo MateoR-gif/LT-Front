@@ -4,7 +4,6 @@ export default function UserProfile(props) {
 
     const userProfileData = props.userProfileData
     const connectedAt = new Date(userProfileData.connectedAt)
-    console.log(userProfileData)
 
     return (
         <div className='chat__container yellow'>
@@ -15,7 +14,7 @@ export default function UserProfile(props) {
             </div>
             <p className='orange'>E-Mail: {userProfileData.email}</p>
             <p className='orange'>Conectado desde: {connectedAt.toLocaleString() === 'Invalid Date' ?
-                    'Recargue para obtener el dato' : connectedAt.toLocaleString()}</p>
+                'Recargue para obtener el dato' : connectedAt.toLocaleString()}</p>
         </div>
     )
 }
