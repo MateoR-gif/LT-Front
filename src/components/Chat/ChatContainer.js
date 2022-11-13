@@ -2,7 +2,7 @@ import React from 'react'
 import GlobalChat from './GlobalChat'
 import slowLoading from "../../assets/slowLoading.gif"
 import UserProfile from './UserProfile' 
-import AllConnectedUsers from './AllConnectedUsers'
+/* import AllConnectedUsers from './AllConnectedUsers' */
 
 export default function ChatContainer(props) {
     //CONSTANTE QUE ALMACENA EL TIPO DEL CHAT EN PANTALLA
@@ -28,10 +28,10 @@ export default function ChatContainer(props) {
             return(
                 <UserProfile className='chat__container' userProfileData={userProfileData} />
             )
-        case 'Conexiones':
+        /* case 'Conexiones':
             return(
                 <AllConnectedUsers></AllConnectedUsers>
-            )
+            ) */
         default:
             break;
     }

@@ -47,6 +47,10 @@
     transition: all 0.5s;
 }
 
+.connected__users{
+    justify-content: space-between;
+}
+
 .chat__controllers {
     display: flex;
     justify-content: center;

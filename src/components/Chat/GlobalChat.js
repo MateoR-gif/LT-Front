@@ -149,7 +149,6 @@ export default function GlobalChat() {
                     <div>
                         <br></br>
                         <p className='msg-color'>{isTyping ? 'Alguien está escribiendo...' : '...'}</p>
-                        <br></br>
                         <p>{notify}</p>
                     </div>
                 </div>

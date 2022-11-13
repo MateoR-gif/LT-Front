@@ -6,15 +6,25 @@ import { connectedUsersRoute, host } from '../../utils/APIRoutes'
 const socket = io(host)
 
 export default function ConnectedUsers({ extractInfo }) {
+    // CONSTANTE QUE GUARDA LA NOTIFICACION
+    const [notify, setNotify] = useState('')
     // CONSTANTE QUE GUARDA LOS USUARIOS CONECTADOS
     const [connectedUsers, setConnectedUsers] = useState([])
     // CONEXIÓN CON LOS SOCKETS
     useEffect(() => {
         const userOff = (user) => {
+            setNotify(`${user.username} se ha desconectado.`)
+            setTimeout(() => {
+                setNotify('')
+            }, 1000)
             const temp = connectedUsers
             setConnectedUsers(temp.filter((temp) => temp.username !== user.username))
         }
         const userOn = (user) => {
+            setNotify(`${user.username} se ha conectado.`)
+            setTimeout(() => {
+                setNotify('')
+            }, 1000)
             setConnectedUsers([...connectedUsers, user])
         }
         socket.on("user-off", userOff)
@@ -56,6 +66,9 @@ export default function ConnectedUsers({ extractInfo }) {
                             )
                         })
                 }
+            </div>
+            <div>
+                {notify}
             </div>
         </div>
     )
