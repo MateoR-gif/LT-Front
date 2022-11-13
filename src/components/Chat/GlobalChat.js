@@ -7,7 +7,6 @@ import { GlobalMsgRoute, host } from '../../utils/APIRoutes'
 const socket = io(host)
 
 export default function GlobalChat() {
-    
     // CONSTANTE QUE GUARDA LA NOTIFICACION
     const [notify, setNotify] = useState('')
     // CONSTANTE QUE GUARDA EL ESTADO 'istyping'
@@ -116,7 +115,6 @@ export default function GlobalChat() {
                 <div className='messages__container'>
                     {
                         messages.length === 0 ? 'No hay mensajes' : messages.map((message, index) => {
-                            console.log(message.from)
                             return (
                                 <div key={index}>
                                     {message.from === user.username
