@@ -2,7 +2,6 @@ import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
-import FakeChat from '../components/App/FakeChat'
 import ChatContainer from '../components/Chat/ChatContainer'
 import ConnectedUsers from '../components/Chat/ConnectedUsers'
 import { allConnectedUsersRoute, allGlobalMessagesRoute, connectedUsersRoute, host } from '../utils/APIRoutes'
@@ -10,7 +9,6 @@ import { allConnectedUsersRoute, allGlobalMessagesRoute, connectedUsersRoute, ho
 const socket = io(host)
 
 export default function Chat(props) {
-  const [isTrolled, setIsTrolled] = useState(false)
   // CONSTANTE QUE DIFERENCIA USER O ADMIN //
   const isAdmin = props.isAdmin
   // INSTANCIA DE USENAVIGATE //
@@ -67,15 +65,6 @@ export default function Chat(props) {
   }
 
   useEffect(() => {
-    if (!isAdmin && (user.rol !== 'user')) {
-      setIsTrolled(true)
-    } else {
-      setIsTrolled(false)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
     socket.on('all-disconnected', (data) => {
       socket.emit('user-off', user)
       localStorage.removeItem('user')
@@ -83,12 +72,6 @@ export default function Chat(props) {
     })
   }, [navigate, user])
 
-
-  if (isTrolled) {
-    return (
-      <FakeChat />
-    )
-  }
   return (
     <div className='component__chat__container'>
       <div className='chat__controllers yellow'> {/* Botones */}

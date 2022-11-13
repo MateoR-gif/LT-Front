@@ -56,6 +56,7 @@ export default function Login({ extractInfo }) {
             if (login.data.ok) {
                 delete login.data.user.password
                 extractInfo(login.data.user.rol)
+                delete login.data.user.rol
                 localStorage.setItem("user", JSON.stringify(login.data.user))
                 socket.emit("user-on", login.data.user)
                 navigate("/")
