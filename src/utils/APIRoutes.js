@@ -1,5 +1,5 @@
 //RUTAS DE LA API//
-export const host = "http://localhost:3001"
+export const host = "https://ltback.herokuapp.com"
 export const registerRoute = `${host}/register`
 export const loginRoute = `${host}/login`
 export const GlobalMsgRoute = `${host}/globalMsgs`
