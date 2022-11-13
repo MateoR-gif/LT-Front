@@ -122,9 +122,9 @@ export default function GlobalChat() {
                                 <div key={index}>
                                     {message.from === user.username
                                     ?
-                                    <p className='yellow'>↱ Tú, dice: {message.message}</p>
+                                    <p className='yellow'>↱ Tú: {message.message}</p>
                                     :
-                                    <p className='orange'>↳ {message.from}, dice: <span className='msg-color'>{message.message}</span></p>
+                                    <p className='orange'>↳ {message.from}: <span className='msg-color'>{message.message}</span></p>
                                     }
                                 </div>
                             )
