@@ -117,11 +117,10 @@ export default function GlobalChat() {
                     {
                         messages.length === 0 ? 'No hay mensajes' : messages.map((message, index) => {
                             return (
-                                <div key={index}>
-                                    <p className='orange'></p>
+                                <div key={index} className='yellow'>
                                     {message.from === user.username
                                     ?
-                                    <p className='yellow'>Tú, dice: {message.message}</p>
+                                    <p>Tú, dice: {message.message}</p>
                                     :
                                     <p className='orange'>{message.from}, dice: {message.message}</p>
                                     }
