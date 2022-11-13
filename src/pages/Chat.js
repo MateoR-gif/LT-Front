@@ -71,6 +71,7 @@ export default function Chat(props) {
       socket.emit('user-off', user)
       localStorage.removeItem('user')
       navigate("/login")
+      alert('Hubo una desconexión global')
     })
   }, [navigate, user])
 

@@ -5,6 +5,11 @@
     font-weight: bolder;
 }
 
+.msg-color {
+    color: rgb(224, 209, 182);
+    font-weight: bolder;
+}
+
 .yellow {
     color: #f8d984;
     font-weight: bolder;

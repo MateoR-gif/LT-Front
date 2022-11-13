@@ -11,6 +11,7 @@ export default function GlobalChat() {
     const [notify, setNotify] = useState('')
     // CONSTANTE QUE GUARDA EL ESTADO 'istyping'
     const [isTyping, setIsTyping] = useState(false)
+    const [youAreTyping, setYouAreTyping] = useState(false)
     // CONSTANTE QUE ALMACENA EL USUARIO
     const user = JSON.parse(localStorage.getItem("user"))
     // CONSTANTE QUE ALMACENA LOS MENSAJES
@@ -26,6 +27,7 @@ export default function GlobalChat() {
     const handleChange = ({ target: { name, value } }) => {
         socket.emit('typing', true)
         setIsTyping(true)
+        setYouAreTyping(true)
         setToSend({ ...toSend, [name]: value })
     }
     // MÉTODO QUE OBTIENE LOS MENSAJES
@@ -39,6 +41,7 @@ export default function GlobalChat() {
     }, [])
     useEffect(() => {
         if (toSend.message === '') {
+            setYouAreTyping(false)
             setTimeout(() => {
                 setIsTyping(false)
                 socket.emit('noTyping', false)
@@ -119,9 +122,9 @@ export default function GlobalChat() {
                                 <div key={index}>
                                     {message.from === user.username
                                     ?
-                                    <p className='yellow'>Tú, dice: {message.message}</p>
+                                    <p className='yellow'>↱ Tú, dice: {message.message}</p>
                                     :
-                                    <p className='orange'>{message.from}, dice: {message.message}</p>
+                                    <p className='orange'>↳ {message.from}, dice: <span className='msg-color'>{message.message}</span></p>
                                     }
                                 </div>
                             )
@@ -139,10 +142,14 @@ export default function GlobalChat() {
                             maxLength={101}
                             autoComplete='off'
                         />
+                        {youAreTyping ?
                         <button className='button__chat'>Enviar</button>
+                        : null}
                     </form>
                     <div>
-                        <p className=''>{isTyping ? 'Alguien está escribiendo...' : '...'}</p>
+                        <br></br>
+                        <p className='msg-color'>{isTyping ? 'Alguien está escribiendo...' : '...'}</p>
+                        <br></br>
                         <p>{notify}</p>
                     </div>
                 </div>
