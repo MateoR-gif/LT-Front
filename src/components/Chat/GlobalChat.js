@@ -123,7 +123,7 @@ export default function GlobalChat() {
                                     ?
                                     <p className='yellow'>Tú, dice: {message.message}</p>
                                     :
-                                    <p className='orange'>message.from, dice: {message.message}</p>
+                                    <p className='orange'>{message.from}, dice: {message.message}</p>
                                     }
                                 </div>
                             )
